@@ -74,19 +74,26 @@ my_array = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog
 # print(c)
 
 
-english = input("Enter roll number for english students:\n>")
-french = input("Enter roll numbers for french students:\n>")
+# english = input("Enter roll number for english students:\n>")
+# french = input("Enter roll numbers for french students:\n>")
 
 
-english_list = english.split()
-french_list = french.split()
+# english_list = english.split()
+# french_list = french.split()
 
-english_set = set(english_list)
-french_set = set(french_list)
+# english_set = set(english_list)
+# french_set = set(french_list)
 
-# total = english_set.symmetric_difference(french_set)
+# # total = english_set.symmetric_difference(french_set)
 
-total = english_set.union(french_set)
+# total = english_set.union(french_set)
 
-print(len(total))
+# print(len(total))
 
+import random
+a = ["g", "e", "a", "t", "z", "c", "r", "ri", "th", "ch", "te", "ay", "go", "ayo" ]
+random.shuffle(a)
+
+# print(2%6)
+# print(2 ** 3 ** 2)
+print(bool(0), bool(3.14159), bool(-3), bool(1.0+1j))
