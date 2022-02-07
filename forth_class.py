@@ -200,7 +200,7 @@ elif choice == 's':
        user_acct_num = random.randrange(1111111111,9999999999)
        user_acct_num = str(user_acct_num)
        new_acct = {}
-       new_acct[user_acct_num] = acct_data
+      #  new_acct[user_acct_num] = acct_data
        data.update(new_acct)
 
        
