@@ -82,7 +82,18 @@ data = {
         "bal" : 12000
     },
 }
-
+DATA = {
+    "0947493434" : [ 
+                                 { "amount" : 1000,
+                                "type" : "credit",
+                                 "action" : "deposit"
+                               },
+                               { "amount" : 1500,
+                                "type" : "debit",
+                                 "action" : "withdraw"
+                               },
+               ]
+}
 print("Welcome to the AstroBank App")
 print("Enter s to signup or l to login:")
 choice = input(">").lower()
@@ -95,7 +106,7 @@ if choice == 'l':
     
     if user and user['pin'] == pin:
         print(f"Welcome {user['name']}.\nYour account balance is ${user['bal']}")
-        print("Enter d to Deposit or w to Withdraw or q to quit:")
+        print("Enter d to Deposit or w to Withdraw or t to transfer or q to quit:")
         choice_2 = input(">").lower()
        
         if choice_2 == "d":
@@ -109,10 +120,16 @@ if choice == 'l':
                 dep_amount_1 = input("Enter Deposit amount: \n>") 
                 dep_amount_1= int(dep_amount_1)
                 user_1["bal"] += dep_amount_1
+                DATA[acc_num_1]= [{ "amount" : dep_amount_1,
+                                "type" : "credit",
+                                 "action" : "deposit"
+                               }]
                 print(user_1)
+                print(DATA)
+
             else:
                 print("Invalid Login") 
-                print("4 more tries")
+                # print("4 more tries")
            
         elif choice_2 == "w":  
               acc_num_4 = input("Enter your account num\n>")
@@ -125,10 +142,40 @@ if choice == 'l':
                 withdrawal_amount = input("Enter Withdrawal amount: \n>") 
                 withdrawal_amount = int(withdrawal_amount)
                 user_4["bal"] -= withdrawal_amount
+                DATA[acc_num_4]= [{ "amount" : withdrawal_amount,
+                                "type" : "debit",
+                                 "action" : "withdrawal"
+                               }]
                 print(user_4)
+                print(DATA)
               else:
                 print("Invalid Login") 
-                print("4 more tries")
+                # print("4 more tries")
+        elif choice_2 == "t":  
+              acc_num_5 = input("Enter account num to debit\n>")
+              tr_acc_num_5 = input("Enter account num to credit\n>")
+            #   tr_acc_num_5= int(tr_acc_num_5)
+              pin_5 = input("Enter your pin:\n>")
+            
+              user_5 = data.get(acc_num_5)
+              tr_user_5 = data.get(tr_acc_num_5)
+              if user_5 and user_5['pin'] == pin_5 and tr_acc_num_5 in data:
+                print(f"Welcome {user_5['name']}.\nYour account balance is ${user_5['bal']}")
+                tr_amount = input("Enter transfer amount: \n>") 
+                tr_amount = int(tr_amount)
+                user_5["bal"] -= tr_amount
+                tr_user_5['bal'] += tr_amount
+                DATA[acc_num_5]= [{ "amount" : tr_amount,
+                                "type" : "debit",
+                                 "action" : "transfer"
+                               }]
+                print(user_5)
+                print(DATA)
+                print(tr_user_5)
+              else:
+                print("Invalid Login") 
+                # print("4 more tries")
+
         if choice_2 == "q":  
            print("Goodbye from Astroverse Bank")
     else:
@@ -159,6 +206,8 @@ elif choice == 's':
        
        print(f"Congratulations!, {acct_data['name']} You now have an accont on Astroverse Bank App and you account number is \n>")
        print(list(data.keys())[-1])
+       new_user_tr_data = {}
+       
        print("Enter d to Deposit or q to quit:")
        choice_2 = input(">").lower()
        
@@ -173,9 +222,13 @@ elif choice == 's':
                 dep_amount = input("Enter Deposit amount: \n>") 
                 dep_amount= int(dep_amount)
                 user_2["bal"] += dep_amount
-
+                DATA[acc_num_2]= [{ "amount" : dep_amount,
+                                "type" : "credit",
+                                 "action" : "deposit"
+                               }]
                 print(user_2)
-                print("Enter w to withdraw q to quit \n>")
+                print(DATA)
+                print("Enter w to withdraw , t to transfer or q to quit \n>")
                 choice_3 = input(">").lower()
                 if choice_3 == "w":  
                   acc_num_3 = input("Enter your account num\n>")
@@ -189,9 +242,33 @@ elif choice == 's':
                     withdrawal_amount = int(withdrawal_amount)
                     user_3["bal"] -= withdrawal_amount
                     print(user_3)
-                  else:
+                    DATA[acc_num_3]= [{ "amount" : withdrawal_amount,
+                                "type" : "debit",
+                                 "action" : "withdrawal"
+                               }]
+                elif choice_3 == "t":    
+                    acc_num_3 = input("Enter account num to debit\n>")
+                    tr_acc_num_3 = input("Enter account num to credit\n>")
+                    #   tr_acc_num_5= int(tr_acc_num_5)
+                    pin_3 = input("Enter your pin:\n>")
+                    
+                    user_3 = data.get(acc_num_3)
+                    tr_user_3 = data.get(tr_acc_num_3)
+                    if user_3 and user_3['pin'] == pin_3 and tr_acc_num_3 in data:
+                        print(f"Welcome {user_3['name']}.\nYour account balance is ${user_3['bal']}")
+                        tr_amount = input("Enter transfer amount: \n>") 
+                        tr_amount = int(tr_amount)
+                        user_3["bal"] -= tr_amount
+                        tr_user_3['bal'] += tr_amount
+                        DATA[acc_num_3]= [{ "amount" : tr_amount,
+                                        "type" : "debit",
+                                        "action" : "transfer"
+                                    }]
+                        print(user_3)
+                        print(DATA)       
+                    else:
                         print("Invalid Login") 
-                        print("4 more tries")
+                        # print("4 more tries")
        elif choice_2 == "q": 
          print("Goodbye from Astroverse Bank")  
              
