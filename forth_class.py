@@ -162,16 +162,17 @@ if choice == 'l':
               if user_5 and user_5['pin'] == pin_5 and tr_acc_num_5 in data:
                 print(f"Welcome {user_5['name']}.\nYour account balance is ${user_5['bal']}")
                 tr_amount = input("Enter transfer amount: \n>") 
-                tr_amount = int(tr_amount)
-                user_5["bal"] -= tr_amount
-                tr_user_5['bal'] += tr_amount
-                DATA[acc_num_5]= [{ "amount" : tr_amount,
-                                "type" : "debit",
-                                 "action" : "transfer"
-                               }]
-                print(user_5)
-                print(DATA)
-                print(tr_user_5)
+                if tr_amount >= user_5["bal"] :
+                  tr_amount = int(tr_amount)
+                  user_5["bal"] -= tr_amount
+                  tr_user_5['bal'] += tr_amount
+                  DATA[acc_num_5]= [{ "amount" : tr_amount,
+                                  "type" : "debit",
+                                  "action" : "transfer"
+                                }]
+                  print(user_5)
+                  print(DATA)
+                  print(tr_user_5)
               else:
                 print("Invalid Login") 
                 # print("4 more tries")
@@ -181,7 +182,7 @@ if choice == 'l':
     else:
         print("Invalid Login")
 # Sign-up or Registration Process Algorithm -#1
-elif choice == 's':
+elif choice == 's': 
     user_name = input("Enter your full name:\n>").lower()
     user_dob = input("Enter your dob mm-dd-yyyy:\n>").lower()
     user_bvn = input("Enter your BVN :\n>").lower()
@@ -200,23 +201,23 @@ elif choice == 's':
        user_acct_num = random.randrange(1111111111,9999999999)
        user_acct_num = str(user_acct_num)
        new_acct = {}
-      #  new_acct[user_acct_num] = acct_data
+       new_acct[user_acct_num] = acct_data
        data.update(new_acct)
 
        
        print(f"Congratulations!, {acct_data['name']} You now have an accont on Astroverse Bank App and you account number is \n>")
-       print(list(data.keys())[-1])
+       print(user_acct_num)
        new_user_tr_data = {}
        
        print("Enter d to Deposit or q to quit:")
        choice_2 = input(">").lower()
        
        if choice_2 == "d":
-            acc_num_2 = input("Enter your account num: \n>")
-            pin_2 = input("Enter your pin: \n>")
+            acc_num_2 = input("Enter your account num:\n>")
+            pin_2 = input("Enter your pin:\n>")
             # pin_2 = int(pin_2)
             user_2 = data.get(acc_num_2)
-            
+            print(user_2)
             if user_2 and user_2['pin'] == pin_2:
                 print(f"Welcome {user_2['name']}.\nYour account balance is ${user_2['bal']}")
                 dep_amount = input("Enter Deposit amount: \n>") 
@@ -233,7 +234,7 @@ elif choice == 's':
                 if choice_3 == "w":  
                   acc_num_3 = input("Enter your account num\n>")
                   pin_3 = input("Enter your pin:\n>")
-            #   pin_3 = int(pin_3)
+            
                   user_3 = data.get(acc_num_3)
             
                   if user_3 and user_3['pin'] == pin_3:
@@ -246,6 +247,7 @@ elif choice == 's':
                                 "type" : "debit",
                                  "action" : "withdrawal"
                                }]
+                    print( DATA[acc_num_3])           
                 elif choice_3 == "t":    
                     acc_num_3 = input("Enter account num to debit\n>")
                     tr_acc_num_3 = input("Enter account num to credit\n>")
@@ -256,27 +258,35 @@ elif choice == 's':
                     tr_user_3 = data.get(tr_acc_num_3)
                     if user_3 and user_3['pin'] == pin_3 and tr_acc_num_3 in data:
                         print(f"Welcome {user_3['name']}.\nYour account balance is ${user_3['bal']}")
-                        tr_amount = input("Enter transfer amount: \n>") 
+                        tr_amount = input("Enter transfer amount:\n>") 
                         tr_amount = int(tr_amount)
-                        user_3["bal"] -= tr_amount
-                        tr_user_3['bal'] += tr_amount
-                        DATA[acc_num_3]= [{ "amount" : tr_amount,
-                                        "type" : "debit",
-                                        "action" : "transfer"
-                                    }]
-                        print(user_3)
-                        print(DATA)       
+                        
+                        if   user_3["bal"] >= tr_amount :
+                          user_3["bal"] -= tr_amount
+                          tr_user_3['bal'] += tr_amount
+                          DATA[acc_num_3]= [{ "amount" : tr_amount,
+                                          "type" : "debit",
+                                          "action" : "transfer"
+                                      }]
+                          print(user_3)
+                          print(DATA)  
+                        else:
+                          print("Insufficient Balance")
                     else:
-                        print("Invalid Login") 
+                           print("Invalid pin")     
+                else:
+                        print("Goodbye from Astroverse Bank") 
                         # print("4 more tries")
-       elif choice_2 == "q": 
-         print("Goodbye from Astroverse Bank")  
-             
+       else:
+          # choice_2 == "q": 
+          print("Goodbye from Astroverse Bank")  
+    else:
+      print("invalid data")         
              
            
            
        
         
 else:
-        print("Invalid data") 
+        print("Invalid entry") 
 
