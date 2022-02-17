@@ -134,11 +134,7 @@ elif choice=="s":
     user(action="signup")
     
     
-    
-    
-    
 
-  
   
 
 file = open("file.txt", "w")
