@@ -5,6 +5,8 @@ About Us
 {% endblock title %}
 
 {% block body %}
+<p>My name is {{name | capfirst}}</p>
+
 <div class="container overflow-hidden">
     <div class="row gy-5">
       <div class="col-6">
@@ -21,5 +23,7 @@ About Us
       </div>
     </div>
   </div>
+
+<p>{% load static %}<img src={% static 'images/food.jpg' %}></p>
 
 {% endblock body %}
