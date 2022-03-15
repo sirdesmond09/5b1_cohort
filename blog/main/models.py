@@ -1,27 +1,28 @@
 from django.db import models
-from django.urls import reverse
+from django.utils import timezone
+from django.contrib.auth.models import User
+from .managers import PublishedManager
 
-# Create your models here.
-
-class Employee(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    job_desc = models.TextField()
-    age  = models.IntegerField()
-    img = models.ImageField(null=True, blank=True)
-    salary = models.FloatField()
-    date_joined = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
+class Post(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
+    
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250, unique_for_date='publish')
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES,default='draft')
     
     
+    objects = models.Manager() # The default manager.
+    published = PublishedManager() # Our custom manager.
+    class Meta:
+        ordering = ('-publish',)
+        
     def __str__(self):
-        return self.email
-    
-    def delete(self):
-        self.is_active=False
-        self.save()
-    
-    
-    def get_absolute_url(self):
-        return reverse("employee_detail", kwargs={"employee_id": self.pk})
-    
+        return self.title

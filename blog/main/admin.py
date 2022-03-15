@@ -1,12 +1,13 @@
 from django.contrib import admin
-from .models import Employee
+from .models import Post
+
 # Register your models here.
-
-# admin.site.register(Employee)
-
-
-@admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ["name", "email", "is_active", "date_joined"]
-    list_editable = ["is_active"]
-    list_filter = ["is_active", "date_joined"]
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'author', 'publish', 'status')
+    list_filter = ('status', 'created', 'publish', 'author')
+    search_fields = ('title', 'body')
+    prepopulated_fields = {'slug': ('title',)}
+    raw_id_fields = ('author',)
+    date_hierarchy = 'publish'
+    ordering = ('status', 'publish')
