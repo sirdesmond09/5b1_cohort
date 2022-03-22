@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Post
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
-from .forms import EmailPostForm
+from .forms import CommentForm, CreatePostForm, EmailPostForm
 from django.core.mail import send_mail
 
 
@@ -36,7 +36,32 @@ def post_detail(request, year, month, day, slug):
                             publish__year=year,
                             publish__month=month,
                             publish__day=day)
-    return render(request, "post/detail.html", {"post":post})
+    
+    comments = Comment.objects.all()
+    new_comment = None
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+            
+    else:
+        form = CommentForm()
+    
+    
+    
+    
+    
+    data = {"post":post,
+            "comments":comments,
+            "form":form,
+            "new_comment":new_comment
+            }
+    
+    return render(request, "post/detail.html", data)
     
 
 def post_share(request, post_id):
@@ -64,3 +89,24 @@ def post_share(request, post_id):
                   {'post': post,
                    'form': form,
                    'sent':sent})
+    
+    
+def create_post(request):
+    if request.method == 'POST':
+        # Form was submitted
+        form = CreatePostForm(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            title = form.cleaned_data['title']
+            new_post = form.save(commit=False)
+            new_post.slug = title.lower().replace(" ", "-")
+            new_post.save()
+            return redirect("main:post_list")
+    else:
+        form = CreatePostForm()
+        
+        
+    return render(request, 'post/create.html', 
+                  {
+                   'form': form,
+                   })

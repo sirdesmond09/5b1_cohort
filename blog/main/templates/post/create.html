@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+
+{% block title %}
+Add new post
+{% endblock title %}
+
+
+{% block content %}
+<h1>What's on your mind?</h1>
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <input type="submit" value="Share your thoughts">
+</form>
+
+{% endblock content %}
