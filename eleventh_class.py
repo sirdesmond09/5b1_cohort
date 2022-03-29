@@ -87,7 +87,7 @@ class QuizQuestion():
             
             
     def result(self):
-        print(f"{QuizQuestion.num_correct} correct our of {QuizQuestion.num_questions} question(s)")
+        print(f"{QuizQuestion.num_correct} correct out of {QuizQuestion.num_questions} question(s)")
         
         
 q1 = QuizQuestion("What year was java created?", 
