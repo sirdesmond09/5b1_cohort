@@ -19,6 +19,7 @@ from rest_framework import permissions # new
 from drf_yasg.views import get_schema_view # new
 from drf_yasg import openapi # new
 
+
 schema_view = get_schema_view( # new
     openapi.Info(
     title="Blog API",
@@ -32,12 +33,16 @@ schema_view = get_schema_view( # new
     permission_classes=(permissions.AllowAny,),
 )
 
+#!Am@Hom3
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin/clearcache/', include('clearcache.urls')),
     path('api/v1/', include('posts.urls')), # new
     path('accounts/', include('accounts.urls')),
+    path("todo/", include("todo.urls")),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    
     
 ]
